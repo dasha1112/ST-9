@@ -20,64 +20,53 @@ namespace HotelCalculator
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Calc_Click(object sender, EventArgs e)
+        private void Calculate_Click(object sender, EventArgs e)
         {
             try
             {
-                // Parse input values from textboxes
-                var numberOfNights = Convert.ToInt32(Days.Text);
-                var roomClass = Convert.ToInt32(Category.Text);
-                var beds = Convert.ToInt32(Capacity.Text);
-                var hasSafe = string.Equals(Safe.Text.Trim(), "да", StringComparison.OrdinalIgnoreCase);
-                var includesBreakfast = string.Equals(Breakfast.Text.Trim(), "да", StringComparison.OrdinalIgnoreCase);
-                // Determine base price based on room class
-                int roomRate = 0;
-                switch (roomClass)
+                var nums_of_nights = Convert.ToInt32(Days.Text);
+                var category_room = Convert.ToInt32(Category.Text);
+                var nums_beds = Convert.ToInt32(Capacity.Text);
+                var isSafe = string.Equals(Safe.Text.Trim(), "да", StringComparison.OrdinalIgnoreCase);
+                var isBreakfast = string.Equals(Breakfast.Text.Trim(), "да", StringComparison.OrdinalIgnoreCase);
+                int roomRang = 0;
+                int bedType = 0;
+                if (category_room == 1)
                 {
-                    case 1:
-                        roomRate = 900;
-                        break;
-                    case 2:
-                        roomRate = 1800;
-                        break;
-                    case 3:
-                        roomRate = 3600;
-                        break;
+                    roomRang = 1000;
                 }
-                // Additional charge for extra beds
-                int bedSurcharge;
-                switch (beds)
+                else if (category_room == 2)
                 {
-                    case 2:
-                        bedSurcharge = 1000;
-                        break;
-                    case 3:
-                        bedSurcharge = 2000;
-                        break;
-                    default:
-                        bedSurcharge = 0;
-                        break;
+                    roomRang = 2000;
                 }
-                // Add-on services cost
+                else if (category_room == 3)
+                {
+                    roomRang = 3000;
+                }
+                if (nums_beds == 2)
+                {
+                    bedType = 500;
+                }
+                else if (nums_beds == 3)
+                {
+                    bedType = 1000;
+                }
+                else
+                {
+                    bedType = 0;
+                }
                 var addOns = 0;
-                if (hasSafe)
-                    addOns += 300;
-                if (includesBreakfast)
-                    addOns += 350;
-                // Final calculation
-                var finalCost = (roomRate + bedSurcharge + addOns) * numberOfNights;
-                // Output the result
+                if (isSafe)
+                    addOns += 520;
+                if (isBreakfast)
+                    addOns += 420;
+                var finalCost = (roomRang + bedType + addOns) * nums_of_nights;
                 Total.Text = finalCost.ToString();
             }
 
             catch (FormatException)
             {
-                MessageBox.Show("Invalid input format.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Input Error");
             }
         }
     }
